@@ -2,56 +2,81 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Library Management Simulator</title>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#e9eef0;--card:#fbfcfc;--ink:#1b2a35;--mute:#5d6d78;--line:#c9d3d8;--acc:#1f6f5c;--accfg:#fff;--warn:#a8691a;--bad:#b0402e;--ok:#1f6f5c;
+:root{--bg:#ffffff;--card:#fff;--ink:#14213d;--mute:#5a6a85;--line:#dbe3f0;--acc:#1f3a93;--accfg:#fff;--blue:#0a0ad2;--red:#e11b1b;--navy:#0f2342;--warn:#b4690e;--bad:#c62828;--ok:#1b7f5c;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a20;--card:#1a252d;--ink:#e3ebef;--mute:#92a2ad;--line:#2e3d47;--acc:#4fb79d;--accfg:#08201a;--warn:#e0a24f;--bad:#e8806d;--ok:#4fb79d}}
-:root[data-theme="dark"]{--bg:#121a20;--card:#1a252d;--ink:#e3ebef;--mute:#92a2ad;--line:#2e3d47;--acc:#4fb79d;--accfg:#08201a;--warn:#e0a24f;--bad:#e8806d;--ok:#4fb79d}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 90px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
-main{max-width:1060px;margin:0 auto;padding:20px 16px 48px}
-h1{font:700 30px/1.15 Newsreader,Georgia,serif;margin:0 0 4px}
-h2{font:700 19px/1.2 Newsreader,Georgia,serif;margin:0 0 10px}
-p.sub{margin:0 0 18px;color:var(--mute);max-width:62ch}
-.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:16px}
-.date{font:700 22px Newsreader,Georgia,serif;margin-right:auto}
-.date small{display:block;font:400 12px "IBM Plex Sans",sans-serif;color:var(--mute)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Roboto,system-ui,sans-serif}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:18px;background:var(--card);padding:0 20px 0 0;box-shadow:0 2px 14px rgba(20,33,61,.1)}
+.brand{background:#1f3a93;color:#fff;padding:14px 34px 14px 22px;border-radius:0 0 70px 0;line-height:1.1;flex:none}
+.brand b{font:600 22px Jost,sans-serif;letter-spacing:.06em;display:block}
+.brand small{font-size:11px;opacity:.9}
+.top nav{display:flex;gap:20px;overflow-x:auto;margin-right:auto;white-space:nowrap}
+.top nav a{color:var(--ink);text-decoration:none;font-weight:500;font-size:14px;text-transform:uppercase;padding:6px 0}
+.top nav a:hover{color:var(--acc)}
+.grp{text-align:right;line-height:1.15;flex:none}.grp b{font:600 18px Jost,sans-serif}.grp small{display:block;font-size:11px;color:var(--mute)}
+@media(max-width:700px){.top{flex-wrap:wrap;padding-bottom:6px}.grp{display:none}.top nav{padding:0 14px;gap:14px;width:100%}}
+.wrap,main{max-width:1092px;margin:0 auto;padding:0 16px}
+main{padding-bottom:40px}
+.hero{padding-top:28px}
+h1{font:600 clamp(30px,5vw,46px)/1.1 Jost,sans-serif;margin:0 0 8px}
+h1 em{font-style:normal;color:var(--red)}
+.sub{margin:0 0 22px;color:var(--mute);max-width:64ch}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--blue);color:#fff;border-radius:22px;text-align:center;margin-bottom:22px;overflow:hidden}
+.stats div{padding:26px 6px;border-left:1px solid rgba(255,255,255,.28)}.stats div:first-child{border:0}
+.stats b{display:block;font:600 clamp(28px,5vw,46px)/1.1 Jost,sans-serif}
+.stats span{font:500 clamp(13px,2vw,18px) Jost,sans-serif}
+h2{font:600 23px/1.2 Jost,sans-serif;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+h2::before{content:"";width:22px;height:22px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f3a93' stroke-width='2'%3E%3Crect x='5' y='3' width='14' height='18' rx='2'/%3E%3Cpath d='M9 8h6M9 12h6M9 16h4'/%3E%3C/svg%3E") center/contain no-repeat}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--card);border-radius:14px;padding:14px 18px;margin-bottom:18px;border:1px solid var(--line);box-shadow:0 6px 24px rgba(20,33,61,.07)}
+.date{font:600 24px Jost,sans-serif;margin-right:auto}
+.date small{display:block;font:400 12px Roboto,sans-serif;color:var(--mute)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media(max-width:760px){.grid{grid-template-columns:1fr}}
-section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+section{background:var(--card);border-left:5px solid var(--acc);border-radius:0 14px 14px 14px;border:1px solid var(--line);border-left:5px solid var(--acc);box-shadow:0 6px 24px rgba(20,33,61,.07);padding:18px}
+section.dark{border-left-color:var(--red)}
 .full{grid-column:1/-1}
 label{display:block;font-size:13px;color:var(--mute);margin:0 0 3px}
-select,input,button{font:inherit;border-radius:7px;border:1px solid var(--line);padding:7px 10px;background:var(--card);color:var(--ink)}
+select,input,button{font:inherit;border-radius:6px;border:1px solid var(--line);padding:8px 11px;background:var(--card);color:var(--ink)}
 select,input{width:100%}
-button{cursor:pointer;font-weight:500}
-button.p{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
-button.s{padding:3px 8px;font-size:13px}
+button{cursor:pointer;font-weight:500;border-color:var(--acc);color:var(--acc);background:transparent}
+button.p,button[data-adv]{background:var(--acc);color:var(--accfg);font-weight:600;text-transform:uppercase;font-size:13px;letter-spacing:.02em;box-shadow:0 6px 14px rgba(31,58,147,.25)}
+button.p::after{content:" \2192"}
+button.s{padding:3px 9px;font-size:13px}
 button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.row.one{grid-template-columns:1fr}
+.cb{position:relative}.sug{display:none;position:absolute;left:0;right:0;top:100%;z-index:6;margin-top:3px;background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:0 10px 24px rgba(20,33,61,.16);max-height:280px;overflow:auto}
+.sug .it{padding:8px 11px;cursor:pointer;border-bottom:1px solid var(--line)}.sug .it:hover{background:#eef2fb}.sug small{display:block;color:var(--mute);font-size:12px}.sug .none{padding:9px 11px;color:var(--mute)}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .btns{display:flex;gap:8px;flex-wrap:wrap}
-.tw{overflow-x:auto}
+.tw{overflow-x:auto}.scroll{max-height:420px;overflow-y:auto}
 table{width:100%;border-collapse:collapse;font-size:14px}
-th{text-align:left;font-weight:600;color:var(--mute);border-bottom:1px solid var(--line);padding:5px 6px;white-space:nowrap}
-td{padding:6px;border-bottom:1px solid var(--line);vertical-align:middle}
-.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid currentColor}
+th{text-align:left;font:600 14px Jost,sans-serif;color:var(--acc);border-bottom:2px solid var(--line);padding:6px;white-space:nowrap}
+td{padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tag{display:inline-block;padding:1px 9px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid currentColor}
 .AVAILABLE{color:var(--ok)}.ISSUED{color:var(--mute)}.ON_HOLD{color:var(--warn)}
 .late{color:var(--bad);font-weight:600}
-#log{list-style:none;margin:0;padding:0;max-height:240px;overflow:auto;font-size:14px}
-#log li{padding:5px 0;border-bottom:1px solid var(--line)}
+#log{list-style:none;margin:0;padding:0;max-height:250px;overflow:auto;font-size:14px}
+#log li{padding:6px 0;border-bottom:1px solid var(--line)}
 #log .e{color:var(--bad)}#log .n{color:var(--warn)}#log .g{color:var(--ok)}
 .empty{color:var(--mute);font-size:14px;margin:0}
 .rules{font-size:13px;color:var(--mute);margin:12px 0 0}
+footer{background:var(--card);color:var(--mute);border-top:1px solid var(--line);text-align:center;padding:20px 16px;font-size:14px}
 </style>
 </head>
 <body>
-<main>
-<h1>Library Management Simulator</h1>
+<header class="top"><div class="brand"><b>MEENAKSHI</b><small>College of Engineering, K.K. Nagar</small></div>
+<nav><a href="#stinfo">Students</a><a href="#bkinfo">Books</a><a href="#desk">Circulation</a><a href="#h-loans">Loans</a><a href="#actlog">Activity</a></nav>
+<div class="grp"><b>Library</b><small>Management System</small></div></header>
+<div class="wrap hero"><h1>Library Management <em>Simulator</em></h1>
 <p class="sub">Issue, return and reserve books, then move the clock forward to see due dates, fines and reservation holds work. Rules: 3 books per student, 14-day loans, ₹2 per late day, issue blocked above ₹50 unpaid fines, holds last 2 days.</p>
-
+<div class="stats"><div><b id="s1">0</b><span>Book copies</span></div><div><b id="s2">0</b><span>Available</span></div><div><b id="s3">0</b><span>On loan</span></div><div><b id="s4">0</b><span>Students</span></div></div></div>
+<main>
 <div class="bar">
   <div class="date"><span id="date"></span><small id="day"></small></div>
   <button data-adv="1">+1 day</button><button data-adv="7">+7 days</button><button data-adv="14">+14 days</button>
@@ -60,42 +85,67 @@ td{padding:6px;border-bottom:1px solid var(--line);vertical-align:middle}
 
 <div class="grid">
 <section>
-  <h2>Circulation desk</h2>
-  <div class="row">
-    <div><label for="stu">Student</label><select id="stu"></select></div>
-    <div><label for="bk">Book</label><select id="bk"></select></div>
-  </div>
-  <div class="btns"><button class="p" id="issue">Issue book</button><button id="reserve">Reserve book</button></div>
-  <div class="row" style="margin-top:14px"><div><label for="nm">Student name</label><input id="nm" type="text" maxlength="40" placeholder="Type a name"></div><div class="btns" style="align-items:flex-end"><button id="addst">Add student</button><button id="rename">Rename selected</button></div></div>
-  <p class="rules">Try it: ask Asha to reserve Software Engineering, then return Ravi's copy and watch it go on hold for Asha.</p>
+  <h2 id="stinfo">Student information</h2>
+  <div class="row one"><div class="cb"><label for="fs">Student</label><input id="fs" type="text" autocomplete="off" placeholder="Type a name or register no. to search"><input type="hidden" id="stu"><div class="sug" id="sg-stu"></div></div></div>
+  <div class="row"><div><label for="nm">Name</label><input id="nm" type="text" maxlength="40" placeholder="Type a name"></div><div><label for="rg">Register no.</label><input id="rg" type="text" maxlength="15" placeholder="Optional"></div></div>
+  <div class="row"><div><label for="dp">Department</label><select id="dp"></select></div><div><label for="yr">Year</label><select id="yr"></select></div></div>
+  <div class="btns"><button class="p" id="addst">Add student</button><button id="rename">Update selected</button><button id="remove">Remove selected</button><button id="removeall">Remove all students</button></div>
+  <p class="rules">To add, type a name and choose Add student. To edit, select a student, change the name, department or year, then choose Update selected.</p>
 </section>
 
 <section>
-  <h2>Activity log</h2>
+  <h2 id="bkinfo">Book information</h2>
+  <div class="row"><div><label for="bt">Book title</label><input id="bt" type="text" maxlength="60" placeholder="Type a book title"></div><div><label for="bc">Number of copies</label><input id="bc" type="number" min="1" max="10" value="1"></div></div>
+  <div class="btns"><button class="p" id="addbk">Add book</button></div>
+  <p class="rules">Typing a title that already exists adds more copies of that book. Syllabus books are named Title (Author) and grouped by semester and subject in the Book list.</p>
+</section>
+
+<section>
+  <h2 id="desk">Issue and reserve</h2>
+  <div class="row"><div class="cb"><label for="fc">Student</label><input id="fc" type="text" autocomplete="off" placeholder="Type a name or register no."><input type="hidden" id="cs"><div class="sug" id="sg-cs"></div></div><div><label for="bk">Book</label><select id="bk"></select></div></div>
+  <div class="btns"><button class="p" id="issue">Issue book</button><button id="reserve">Reserve book</button></div>
+  <p class="rules">Try it: issue Software Engineering (one copy) to a student, reserve it for a second student, then return the first loan and watch the copy go on hold.</p>
+</section>
+
+<section class="dark">
+  <h2 id="actlog">Activity log</h2>
   <ul id="log"></ul>
 </section>
 
-<section class="full"><h2>Book copies</h2><div class="tw" id="copies"></div></section>
-<section><h2>Active loans</h2><div class="tw" id="loans"></div></section>
+<section class="full"><h2 id="h-copies">Book copies</h2><div class="tw scroll" id="copies"></div></section>
+<section><h2 id="h-loans">Active loans</h2><div class="tw" id="loans"></div></section>
 <section><h2>Reservation queue</h2><div class="tw" id="res"></div></section>
-<section class="full"><h2>Students and fines</h2><div class="tw" id="studs"></div></section>
+<section class="full"><h2 id="h-studs">Students and fines</h2><div style="max-width:360px;margin-bottom:10px"><label for="ft">Search students</label><input id="ft" type="text" placeholder="Name or register no."></div><div class="tw scroll" id="studs"></div></section>
 </div>
 </main>
+<footer>Meenakshi College of Engineering, K.K. Nagar · Library Management System project</footer>
 <script>
 const MAXB=3,LOAN=14,RATE=2,CAP=200,BLOCK=50,HOLD=2;
+const DEPTS=[["Artificial Intelligence and Machine Learning","AI&ML"],["Computer Science and Engineering","CSE"],["Information Technology","IT"],["Artificial Intelligence and Data Science","AI&DS"],["Electronics and Communication Engineering","ECE"],["Electrical and Electronics Engineering","EEE"],["Mechanical Engineering","MECH"],["Civil Engineering","CIVIL"],["Architecture","ARCH"],["Computer Applications","MCA"],["Master of Business Administration","MBA"]];
+const ROSTER=[["311425148001","AKASH NITHIN KUMAR M",1],["311425148002","AMAL HASHIMA M",1],["311425148003","ASHWINI L",1],["311425148004","BHAVANA R",1],["311425148006","DHIVAGAR J",1],["311425148007","ELSHA JOVI J",1],["311425148008","GOKULNATH H",1],["311425148009","GOPIKA S",1],["311425148010","HANSHIKA S",1],["311425148011","HARINI S",1],["311425148012","HARSHAVARDHAN G R",1],["311425148013","HARSHITHA A",1],["311425148014","INBASRI G",1],["311425148015","JANANI J",1],["311425148016","JANNATHUL FAMITHA T A",1],["311425148017","JEEVA BHARATHI S",1],["311425148018","KAVIN SHREYANTH N",1],["311425148019","KEERTHI RAMYA Y",1],["311425148020","KOSHIKA M",1],["311425148021","LAKSHMI SRI S",1],["311425148022","LOHITH PRAKASH S",1],["311425148023","MALATHI G",1],["311425148024","MOHAMED AATHIL MAIDEEN S",1],["311425148026","MOHITH KANNA R",1],["311425148027","NARMADHA V",1],["311425148028","NEERAJ ARAVINDAN A",1],["311425148029","NIRAIMATHI A",1],["311425148030","NITHYA S",1],["311425148031","OMNISHA A",1],["311425148032","PRAVEENA D",1],["311425148033","PREETHIKSHA G",1],["311425148034","PRIYADHARSHINI M",1],["311425148035","RAGAVI R",1],["311425148037","ROHINISH S",1],["311425148038","ROSHNE V",1],["311425148039","SAI MITHESH S",1],["311425148040","SANJANA V",1],["311425148041","SANJANA V",1],["311425148042","SANTHOSH KUMAR K",1],["311425148043","SHAHANAH G L",1],["311425148044","SHALINI S N",1],["311425148045","SHANMUGA PRIYA A",1],["311425148046","SHARAN S",1],["311425148047","SIDHARTH K R",1],["311425148048","SRI DEEPIKA C",1],["311425148049","SUBHIKSHA S",1],["311425148050","SWATHI S",1],["311425148051","SWETHA S",1],["311425148052","VARSHASRI P",1],["311425148054","VARSHINI V",1],["311425148055","VELU V",1],["311425148056","YASVAND G S",1],["311425148301","MALLIHA SHREE M",1],["311425148302","SEJAL KESHRI",1],["311425148303","VIJAY V S",1],["311425148304","YOKKESH RAJ K",1],["311424148002","ABISHEK R",2],["311424148003","AKASH KAR",2],["311424148004","ASWIN M",2],["311424148005","BHARADHAN M D",2],["311424148006","DEEPIKA P",2],["311424148007","DIVYA SREE S",2],["311424148008","FANAS N S",2],["311424148009","HANUMANTHRAA R C",2],["311424148010","HARIHARAN T",2],["311424148011","JAIRAM B",2],["311424148012","JEEVADHARSHINI S S",2],["311424148013","JEEVASREE S K",2],["311424148014","JIVITESH M",2],["311424148015","JOANA JENIFER A S",2],["311424148016","KRISHNAPRIYA M",2],["311424148017","LOGESHWARI RAJA",2],["311424148018","LOKESHWARAN R",2],["311424148019","MADHURABOYINA JAGADEESH SATYANARAYANA",2],["311424148020","MOHAMMAD ADHIL Z",2],["311424148021","POOJA D",2],["311424148022","PRANAYA S",2],["311424148023","PURUSHOTHAMAN L",2],["311424148024","RAKESH YADAV A",2],["311424148025","RISHIKA R",2],["311424148026","RISHIVANDAN S",2],["311424148027","RITHIKA R",2],["311424148028","RITHISH S",2],["311424148029","ROSHAN B R",2],["311424148030","ROSHINI R",2],["311424148031","SAI VISWA TEJA B",2],["311424148032","SAJITHA K",2],["311424148033","SANDRA JOYLENE S P",2],["311424148034","SHAMIKSHA S",2],["311424148035","SHARMILA M",2],["311424148036","SHARMILI N",2],["311424148037","SHEIKA FATHIMA K",2],["311424148038","SOWMIYA R",2],["311424148039","SREE HARI B",2],["311424148040","SRISIVASHANKAR S",2],["311424148041","SRUTHI SHREE S",2],["311424148042","THENMOZHI R",2],["311424148043","THIRUMOORTHY G",2],["311424148044","THUNGESH G",2],["311424148045","VARSHA S",2],["311424148046","VARSHNI A",2],["311424148047","YAZHSHREE B",2],["311424148301","AADHITHYA A S",2],["311424148302","ARAVIND SURYA L R",2],["311424148303","CHANDRU S",2],["311424148304","DEVA S",2],["311424148305","KARTHIK R S",2],["311423148001","AARTHI E",3],["311423148002","AARTHI P",3],["311423148003","AISHWARYA S",3],["311423148004","ASHOK K",3],["311423148005","ASIFA FIRDHOUSE F",3],["311423148006","AZHAGUVELAN K",3],["311423148007","BEVIN INFANTO ANGELO S",3],["311423148009","DEEPAK KUMAR R",3],["311423148010","DEEPAPRIYA R",3],["311423148011","DHARSHINI R",3],["311423148012","DINESH S",3],["311423148013","DIVYA S",3],["311423148015","HARINI E",3],["311423148016","HARITHA K",3],["311423148017","HARSHITHA S S",3],["311423148018","JAGATHARANI A",3],["311423148019","JAIYA NANDHANA S R",3],["311423148020","KEERTHANA G",3],["311423148021","KISHORE ABINAV S V",3],["311423148022","MANIKANDAN M",3],["311423148023","MOHAMMED IRFAN SHAKIL S",3],["311423148024","MOHAMMED SHAMEER G",3],["311423148025","MOHAN PRASATH S",3],["311423148026","MONISH RAJ A",3],["311423148027","NISHITHA LOCHAN P",3],["311423148028","PADMALAKSHMI N",3],["311423148029","PADMESH K",3],["311423148030","PARASURAMAN G",3],["311423148031","PARKAVI A",3],["311423148032","PRABHA L",3],["311423148033","PRANAV M",3],["311423148034","PRIYA DHARSHINI R",3],["311423148035","RAKESH B",3],["311423148036","RAKSHANA J",3],["311423148037","SAI CHANDINI P",3],["311423148038","SANCHANA K",3],["311423148039","SANDHIYA M",3],["311423148040","SARAVANAKUMAR K",3],["311423148041","SAVITA S",3],["311423148042","SELVAM R",3],["311423148043","SHOBANA K",3],["311423148044","SHRUTHI S M",3],["311423148045","SREENIVAS KAILASH N",3],["311423148046","SRIHITHA Y",3],["311423148047","SRI VIGNESH R",3],["311423148048","SUBHASHREE S",3],["311423148049","SUSHMITHA K",3],["311423148050","TANIRIKA G",3],["311423148051","THARUN R",3],["311423148052","VAISHNAVI M",3],["311423148053","YASHWANTH S",3],["311423148054","YUDESH E",3]];
+const YEARS=["1st Year","2nd Year","3rd Year","4th Year"];
+const abbr=d=>(DEPTS.find(x=>x[0]==d)||[d,d])[1];
+// Syllabus books (Anna University B.E. CSE (AI and ML), Regulations 2025, Sem I-IV): [semester, subject, [[title, author], ...]]
+const CATALOG=[["Sem I","Applied Calculus (MA25C01)",[["Calculus: Early Transcendentals","Anton, Bivens & Davis"],["Calculus: An Applied Approach","Larson & Falvo"],["Calculus: Early Transcendentals","Stewart, Clegg & Watson"],["Thomas' Calculus: Early Transcendentals","Thomas, Weir, Hass & Heil"],["Engineering Mathematics through Applications","K. Singh"],["Higher Engineering Mathematics","B. S. Grewal"]]],["Sem I","English Essentials – I (EN25C01)",[["Business and Professional Communication: KEYS for Workplace Excellence","Miller & Wahl"],["English Language and Communication Skills for Engineers","Sanjay Kumar & Pushpalatha"],["Communication Skills for Engineers and Scientists","Sharma & Mishra"]]],["Sem I–II","Heritage of Tamils / Tamils and Technology (UC25H01, UC25H02)",[["தமிழக வரலாறு – மக்களும் பண்பாடும்","K. K. Pillay"],["கணினித் தமிழ்","Dr. Il. Sundaram"],["Social Life of Tamils","K. K. Pillay"],["Social Life of the Tamils: The Classical Period","S. Singaravelu"],["Historical Heritage of the Tamils","S. V. Subramanian & K. D. Thirunavukkarasu"],["The Contributions of the Tamils to Indian Culture","M. Valarmathi"],["Keeladi: Sangam City Civilization on the Banks of River Vaigai","Dept. of Archaeology & TNTB"],["Studies in the History of India with Special Reference to Tamil Nadu","K. K. Pillay"],["Porunai Civilization","Dept. of Archaeology & TNTB"],["Journey of Civilization: Indus to Vaigai","R. Balakrishnan"]]],["Sem I","Applied Physics – I (PH25C01)",[["University Physics with Modern Physics","Young & Freedman"],["Engineering Physics","Gaur & Gupta"],["Elements of Properties of Matter","D. S. Mathur"],["Introduction to Quantum Mechanics","D. J. Griffiths"],["Laser Fundamentals","W. T. Silfvast"]]],["Sem I","Applied Chemistry – I (CY25C01)",[["Engineering Chemistry","Jain & Jain"],["A Textbook of Engineering Chemistry","S. S. Dara"],["Basics of Nano Chemistry","M. V. Sachdeva"],["Engineering Chemistry","E. Friedrich"]]],["Sem I","Computer Programming: C (CS25C01)",[["Programming in C","R. Thareja"],["Programming in ANSI C","E. Balagurusamy"],["Let Us C","Y. Kanetkar"],["Learn to Program with C","N. Kalicharan"],["Computer Science: A Structured Programming Approach in C","Forouzan & Afyouni"]]],["Sem I","Essentials of Computing (CS25C03)",[["Fundamentals of Computers","R. Thareja"],["Fundamentals of Computers","Rajaraman & Adabala"],["Computer Science: An Overview","Brookshear & Brylow"],["How to Solve It by Computer","R. G. Dromey"],["Learn to Program with Scratch","M. Marji"],["Computational Thinking for the Modern Problem Solver","Riley & Hunt"],["Computational Thinking","Venkatesh & Mukund"]]],["Sem I","Makerspace (ME25C04)",[["Learn to Weld: Beginning MIG Welding and Metal Fabrication Basics","Stephen Christena"],["Fabricated: The New World of 3D Printing","H. Lipson"]]],["Sem I","Life Skills for Engineers – I (UC25A01)",[["You Can Win","S. Khera"],["Life Skills 101","H. Levesque"],["Personality Development & Soft Skills","B. K. Mitra"],["Life Skills for Engineers","ICT Academy of Kerala"]]],["Sem I","Physical Education – I (UC25A02)",[["Essentials of Physical Education","A. Singh"],["Psychology in Physical Education and Sport","M. L. Kamlesh"],["Psychology of Sports Performance","S. K. Mangal"]]],["Sem II","Linear Algebra (MA25C02)",[["Linear Algebra","Friedberg, Insel & Spence"],["Linear Algebra and Its Applications with MATLAB","Lay, Lay & McDonald"],["Schaum's Outline of Matrix Operations","R. Bronson"],["Linear Algebra and Its Applications","G. Strang"],["Schaum's Outline of Linear Algebra","Lipschutz & Lipson"],["Advanced Engineering Mathematics","E. Kreyszig"]]],["Sem II","Applied Physics (CSIE) – II (PH25C03)",[["Principles of Electronic Materials and Devices","S. O. Kasap"],["Quantum Computing for Everyone","C. Bernhardt"],["Fundamentals of Nanoelectronics","G. W. Hanson"]]],["Sem II","Basic Electrical and Electronics Engineering (EE25C01)",[["Electrical Engineering Fundamentals","V. Del Toro"],["Electrical Engineering: Principles and Applications","A. R. Hambley"],["Principles of Electrical Engineering and Electronics","V. K. Mehta & R. Mehta"]]],["Sem II","Digital Principles and Computer Organization (CS25C06)",[["Digital Design: With an Introduction to the Verilog HDL, VHDL, and SystemVerilog","Mano & Ciletti"],["Computer Organization and Design: The Hardware/Software Interface","Patterson & Hennessy"],["Computer Organization and Architecture: Designing for Performance","W. Stallings"]]],["Sem II","Object Oriented Programming (CS25C07)",[["C++ How to Program: An Objects-Natural Approach","Deitel & Deitel"],["A First Book of C++","G. Bronson"],["Object Oriented Programming with C++","E. Balagurusamy"]]],["Sem II","English Essentials – II (EN25C02)",[["English Language Skills for Engineers","Koneru Aruna"],["Communication for Business: A Practical Approach","Taylor & Chandra"],["Listening B2 (Collins English for Life: Skills)","Ian Badger et al."],["Grammar in Use","Raymond Murphy"]]],["Sem II","Re-Engineering for Innovation (ME25C05)",[["Reverse Engineering: Mechanisms, Structures, Systems & Materials","W. Wang"],["Arduino Cookbook","M. Margolis"]]],["Sem II","Life Skills for Engineers – II (UC25A03)",[["Six Thinking Hats","E. de Bono"],["Critical Thinking: What It Is and Why It Counts","P. A. Facione"],["Thinking, Fast and Slow","D. Kahneman"],["Developing Management Skills","Whetten & Cameron"]]],["Sem II","Physical Education – II (UC25A04)",[["Foundations of Physical Education","K. Kandappan"]]],["Sem II","Foreign Language: Deutsch / Japanese / Korean (UC25F01–F03)",[["Menschen A1: Deutsch als Fremdsprache Kursbuch","Funk, Kuhn & Demme"],["Genki I: An Integrated Course in Elementary Japanese","Banno et al."],["Marugoto: Japanese Language and Culture, Starter (A1)","The Japan Foundation"],["Elementary Korean","King, Yeon & Brown"],["Integrated Korean: Beginning 1","Cho et al."]]],["Sem III","Discrete Mathematics (MA25C14)",[["Discrete Mathematical Structures with Applications to Computer Science","Tremblay & Manohar"],["Discrete Mathematics and Its Applications","K. H. Rosen"],["Discrete Mathematics for Computer Scientists and Mathematicians","Mott, Kandel & Baker"],["Elements of Discrete Mathematics","C. L. Liu"],["Discrete and Combinatorial Mathematics","R. P. Grimaldi"]]],["Sem III","Object Oriented Software Engineering (CS25C10)",[["Fundamentals of Software Engineering","Ghezzi, Jazayeri & Mandrioli"],["Applying UML and Patterns","C. Larman"],["Object-Oriented and Classical Software Engineering","S. Schach"]]],["Sem III","Data Structures (CS25C08)",[["Data Structures: A Pseudocode Approach","Gilberg & Forouzan"],["Data Structures and Algorithm Analysis in C++","M. A. Weiss"],["Data Structures and Algorithms","Aho, Hopcroft & Ullman"],["Data Structures Using C++","D. S. Malik"]]],["Sem III","Java Programming (CS25C09)",[["Java: The Complete Reference","Schildt & Coward"],["Java Programming Language: Learn Java from Basic to Advance","Aamer Khan"],["Object-Oriented Programming Using Java","Tripti Paul"]]],["Sem III","Operating Systems (CS25C11)",[["Operating System Concepts","Silberschatz, Galvin & Gagne"],["Operating Systems","Deitel, Deitel & Choffnes"],["Professional Linux Kernel Architecture","W. Mauerer"],["Guide to Operating Systems","G. Tomsho"]]],["Sem III","English Communication Skills Laboratory – I (EN25C03)",[["Interpersonal Communication","Kory Floyd"],["Leadership Communication Skills for Intercultural Management","Apoorva Bharadwaj"],["Making Working Relationships Work: The TRIPS Toolkit","Spencer-Oatey & Lazidou"],["Listening Extra","Miles Craven"]]],["Sem IV","Probability and Statistics (MA25C13)",[["Probability and Statistics for Engineers and Scientists","Walpole, Myers & Ye"],["An Introduction to Statistical Learning with Applications in R","James, Witten, Hastie & Tibshirani"],["Probability and Statistics for Engineers (Miller & Freund's)","R. A. Johnson"],["Understandable Statistics: Concepts and Methods","Brase & Brase"],["Applied Multivariate Statistical Analysis","Johnson & Wichern"],["An Introduction to Multivariate Statistical Analysis","T. W. Anderson"]]],["Sem IV","Algorithms (CS25C12)",[["Introduction to the Design and Analysis of Algorithms","A. Levitin"],["Computer Algorithms/C++","Horowitz, Sahni & Rajasekaran"],["Introduction to Algorithms","Cormen, Leiserson, Rivest & Stein"]]],["Sem IV","Compiler Design (CS25C18)",[["Compilers: Principles, Techniques, and Tools","Aho, Lam, Sethi & Ullman"],["Engineering a Compiler","Cooper & Torczon"],["Compiler Design","S. Chattopadhyay"]]],["Sem IV","Standards in Computer Science (CS25C15)",[["Manual for Standards Formulation 2022","Bureau of Indian Standards"],["Implementing Service Quality Based on ISO/IEC 20000","M. Kunas"],["Standards for Information Technology and Systems","S. H. Kan"],["Guide to the Software Engineering Body of Knowledge (SWEBOK) v3.0","IEEE Computer Society"],["ISO/IEC 27001:2013 – A Pocket Guide","A. Calder"],["Web Standards: Mastering HTML5, CSS3, and XML","L. Sikos"],["NIST Cybersecurity Framework: A Pocket Guide","A. Calder"]]],["Sem IV","Database Management Systems (CS25C13)",[["Database System Concepts","Silberschatz, Korth & Sudarshan"],["Database Systems: Design, Implementation, and Management","Coronel & Morris"],["Fundamentals of Database Systems","Elmasri & Navathe"]]],["Sem IV","Python for Data Science (AD25201)",[["Data Science from Scratch","J. Grus"],["Python for Data Analysis","W. McKinney"],["Python Data Science Handbook","J. VanderPlas"],["Data Science and Machine Learning Using Python","R. Thareja"]]],["Sem IV","English Communication Skills Laboratory – II (EN25C04)",[["The Art of Public Speaking","Lucas & Stob"],["Think Faster, Talk Smarter","M. Abrahams"],["Powerful Phrases for Successful Interviews","T. Beshara"],["Interviewology: The New Science of Interviewing","A. Papalia"],["Verbal Ability and Reading Comprehension","Ajay Singh"]]]];
+const SEED=["Software Engineering","Database Systems","Operating Systems","Computer Networks"];
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)); // random whole number from a to b
+function buildBooks(){
+  const books=[];let n=0;
+  const add=(title,sub)=>{const k=rnd(5,7),isbn="B"+(++n);books.push({isbn,title,sub,copies:Array.from({length:k},(_,i)=>({id:isbn+"-"+(i+1),st:"AVAILABLE"}))})};
+  SEED.forEach(t=>add(t,"General titles"));
+  CATALOG.forEach(([sem,subj,list])=>list.forEach(b=>add(b[0]+" ("+b[1]+")",sem+" · "+subj)));
+  return books;
+}
 const START=new Date(2026,9,5);
 let S;
 function init(){
-  S={day:0,nid:1,sid:3,log:[],
-    students:[{id:1,name:"Asha Rao",fine:0},{id:2,name:"Ravi Kumar",fine:0},{id:3,name:"Meena Iyer",fine:0}],
-    books:[
-      {isbn:"B1",title:"Software Engineering",copies:[{id:"B1-1",st:"ISSUED"}]},
-      {isbn:"B2",title:"Database Systems",copies:[{id:"B2-1",st:"AVAILABLE"},{id:"B2-2",st:"AVAILABLE"}]},
-      {isbn:"B3",title:"Operating Systems",copies:[{id:"B3-1",st:"AVAILABLE"}]},
-      {isbn:"B4",title:"Computer Networks",copies:[{id:"B4-1",st:"AVAILABLE"}]}],
-    loans:[{id:1,sid:2,cid:"B1-1",isbn:"B1",issue:0,due:LOAN,ret:null}],
+  S={day:0,nid:1,sid:ROSTER.length,bid:0,log:[],
+    students:ROSTER.map((x,i)=>({id:i+1,reg:x[0],name:x[1],fine:0,dept:DEPTS[0][0],year:YEARS[x[2]]})),
+    books:buildBooks(),
+    loans:[],
     res:[]};
-  say("Simulation started. Ravi holds the only copy of Software Engineering.","g");
+  S.bid=S.books.length;
+  say(`Simulation started with ${S.students.length} students and ${S.books.length} book titles. No books are issued yet.`,"g");
 }
 const say=(m,c="")=>S.log.unshift({m,c,d:S.day});
 const D=n=>{const d=new Date(START);d.setDate(d.getDate()+n);return d.toLocaleDateString("en-IN",{day:"numeric",month:"short"})};
@@ -162,6 +212,7 @@ function advance(n){
 function render(){
   const $=id=>document.getElementById(id);
   $("date").textContent=D(S.day);$("day").textContent="Simulated day "+S.day;
+  const all=S.books.flatMap(b=>b.copies);$("s1").textContent=all.length;$("s2").textContent=all.filter(c=>c.st=="AVAILABLE").length;$("s3").textContent=all.filter(c=>c.st=="ISSUED").length;$("s4").textContent=S.students.length;
   const t=(h,rows)=>rows.length?`<table><tr>${h.map(x=>`<th>${x}</th>`).join("")}</tr>${rows.join("")}</table>`:`<p class="empty">Nothing here yet.</p>`;
   $("copies").innerHTML=t(["Copy","Title","Status","Detail"],S.books.flatMap(b=>b.copies.map(c=>{
     const l=S.loans.find(l=>l.cid==c.id&&l.ret===null);
@@ -171,35 +222,96 @@ function render(){
     const late=Math.max(0,S.day-l.due);
     return `<tr><td>${l.cid}</td><td>${stu(l.sid).name}</td><td class="${late?"late":""}">${D(l.due)}</td><td>₹${Math.min(CAP,late*RATE)}</td><td class="btns"><button class="s" data-ret="${l.id}">Return</button><button class="s" data-ren="${l.id}">Renew</button></td></tr>`}));
   $("res").innerHTML=t(["Title","Student","Status",""],S.res.map(r=>`<tr><td>${book(r.isbn).title}</td><td>${stu(r.sid).name}</td><td>${r.st.toLowerCase()}</td><td>${r.st=="ACTIVE"?`<button class="s" data-can="${r.id}">Cancel</button>`:""}</td></tr>`));
-  $("studs").innerHTML=t(["Student","Books out","Unpaid fines","Can borrow?",""],S.students.map(s=>{
+  const q=document.getElementById("ft").value.trim().toLowerCase();
+  $("studs").innerHTML=t(["Student","Register no.","Department","Year","Books out","Unpaid fines","Can borrow?",""],S.students.filter(s=>!q||(s.name+" "+s.reg).toLowerCase().includes(q)).map(s=>{
     const ok=s.fine<=BLOCK&&active(s.id).length<MAXB;
-    return `<tr><td>${s.name}</td><td>${active(s.id).length} of ${MAXB}</td><td>₹${s.fine}</td><td>${ok?"Yes":"No"}</td><td>${s.fine?`<button class="s" data-pay="${s.id}">Collect fine</button>`:""}</td></tr>`}));
+    return `<tr><td>${s.name}</td><td>${s.reg||""}</td><td>${abbr(s.dept)}</td><td>${s.year}</td><td>${active(s.id).length} of ${MAXB}</td><td>₹${s.fine}</td><td>${ok?"Yes":"No"}</td><td>${s.fine?`<button class="s" data-pay="${s.id}">Collect fine</button>`:""}</td></tr>`}));
   $("log").innerHTML=S.log.slice(0,40).map(e=>`<li class="${e.c}">Day ${e.d}: ${e.m}</li>`).join("");
 }
-function fill(ks,kb){
-  document.getElementById("stu").innerHTML=S.students.map(s=>`<option value="${s.id}">${s.name}</option>`).join("");
-  document.getElementById("bk").innerHTML=S.books.map(b=>`<option value="${b.isbn}">${b.title}</option>`).join("");
-  if(ks)document.getElementById("stu").value=ks;
-  if(kb)document.getElementById("bk").value=kb;
+const CB={stu:["fs","sg-stu"],cs:["fc","sg-cs"]};
+const label=s=>s.name+" ("+(s.reg||abbr(s.dept))+")";
+function pickStu(k,id){const s=stu(id),g=x=>document.getElementById(x);g(k).value=s?s.id:"";g(CB[k][0]).value=s?label(s):"";g(CB[k][1]).style.display="none";if(k=="stu")syncDY()}
+function suggest(k){
+  const g=x=>document.getElementById(x),q=g(CB[k][0]).value.trim().toLowerCase(),box=g(CB[k][1]);
+  g(k).value="";
+  if(!q){box.style.display="none";return}
+  const m=S.students.filter(s=>(s.name+" "+s.reg).toLowerCase().includes(q)).sort((a,b)=>b.name.toLowerCase().startsWith(q)-a.name.toLowerCase().startsWith(q)).slice(0,8);
+  box.innerHTML=m.length?m.map(s=>`<div class="it" data-k="${k}" data-id="${s.id}">${s.name}<small>${s.reg||""} · ${abbr(s.dept)}, ${s.year}</small></div>`).join(""):'<div class="none">No matching student</div>';
+  box.style.display="block";
 }
+function fill(ks,kb){
+  const g=id=>document.getElementById(id);
+  const keep=(k,id)=>{const s=stu(id);g(k).value=s?s.id:"";g(CB[k][0]).value=s?label(s):""};
+  keep("stu",ks||g("stu").value);keep("cs",g("cs").value);
+  const grp=[];S.books.forEach(b=>{const s=b.sub||"Added manually";let e=grp.find(x=>x[0]==s);if(!e)grp.push(e=[s,[]]);e[1].push(b)});
+  g("bk").innerHTML=grp.map(([s,bs])=>`<optgroup label="${s}">`+bs.map(b=>`<option value="${b.isbn}">${b.title}</option>`).join("")+"</optgroup>").join("");
+  if(kb)g("bk").value=kb;
+  syncDY();
+}
+function syncDY(){const s=stu(document.getElementById("stu").value);if(s){document.getElementById("dp").value=s.dept;document.getElementById("yr").value=s.year}}
 function addStudent(name){
   if(!name)return say("Enter a name first.","e");
   if(S.students.some(s=>s.name.toLowerCase()==name.toLowerCase()))return say(`A student named ${name} already exists.`,"e");
-  const id=++S.sid;S.students.push({id,name,fine:0});
-  say(`Registered new student ${name}.`,"g");return id;
+  const dept=document.getElementById("dp").value,year=document.getElementById("yr").value;
+  const reg=document.getElementById("rg").value.trim();
+  if(reg&&S.students.some(s=>s.reg==reg))return say(`Register no. ${reg} already belongs to ${S.students.find(s=>s.reg==reg).name}.`,"e");
+  const id=++S.sid;S.students.push({id,name,fine:0,dept,year,reg});document.getElementById("rg").value="";
+  say(`Registered new student ${name} (${abbr(dept)}, ${year}${reg?", "+reg:""}).`,"g");return id;
+}
+function addBook(title,n){
+  if(!title)return say("Enter a book title first.","e");
+  n=Math.max(1,Math.min(10,parseInt(n)||1));
+  let b=S.books.find(b=>b.title.toLowerCase()==title.toLowerCase());
+  const isNew=!b;
+  if(isNew){b={isbn:"B"+(++S.bid),title,sub:"Added manually",copies:[]};S.books.push(b)}
+  let k=b.copies.length;
+  for(let i=0;i<n;i++){
+    let id;do{id=b.isbn+"-"+(++k)}while(copy(id));
+    const c={id,st:"AVAILABLE"};b.copies.push(c);release(c,b.isbn);
+  }
+  say(isNew?`Added "${title}" with ${n} cop${n>1?"ies":"y"}.`:`Added ${n} more cop${n>1?"ies":"y"} of "${b.title}".`,"g");
+  return b.isbn;
+}
+function removeAll(){
+  if(!S.students.length)return say("There are no students to remove.","e");
+  let n=0;const kept=[];
+  [...S.students].forEach(s=>{
+    if(active(s.id).length||s.fine){kept.push(s.name);return}
+    S.res.filter(r=>r.sid==s.id&&r.st=="ACTIVE").forEach(r=>r.st="CANCELLED");
+    S.books.forEach(b=>b.copies.forEach(c=>{if(c.st=="ON_HOLD"&&c.hold.sid==s.id)release(c,b.isbn)}));
+    S.res=S.res.filter(r=>r.sid!=s.id);
+    S.students=S.students.filter(x=>x.id!=s.id);n++;
+  });
+  say(`Removed ${n} student${n==1?"":"s"}.`+(kept.length?` Kept ${kept.join(", ")}: books or fines still pending.`:""),n?"g":"e");
+}
+function removeStudent(sid){
+  const s=stu(sid);
+  if(active(sid).length)return say(`Cannot remove ${s.name}: ${active(sid).length} book(s) not returned yet.`,"e");
+  if(s.fine)return say(`Cannot remove ${s.name}: ₹${s.fine} fine is unpaid. Collect it first.`,"e");
+  S.res.filter(r=>r.sid==sid&&r.st=="ACTIVE").forEach(r=>r.st="CANCELLED");
+  S.books.forEach(b=>b.copies.forEach(c=>{if(c.st=="ON_HOLD"&&c.hold.sid==sid)release(c,b.isbn)}));
+  S.res=S.res.filter(r=>r.sid!=sid);
+  S.students=S.students.filter(x=>x.id!=sid);
+  say(`Removed student ${s.name} and their reservations.`,"g");return true;
 }
 document.addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;
-  const sid=+document.getElementById("stu").value,isbn=document.getElementById("bk").value;
-  if(b.id=="issue")issue(sid,isbn);
-  else if(b.id=="reserve")reserve(sid,isbn);
-  else if(b.id=="reset"){init();fill()}
-  else if(b.id=="addst"){const nm=document.getElementById("nm"),id=addStudent(nm.value.trim());if(id){nm.value="";fill(id,isbn)}}
+  const sid=+document.getElementById("stu").value,csid=+document.getElementById("cs").value,isbn=document.getElementById("bk").value;
+  const who=["issue","reserve"].includes(b.id)?csid:sid;
+  if(["issue","reserve","rename","remove"].includes(b.id)&&!stu(who)){say("Select or add a student first.","e");render();return}
+  if(b.id=="issue")issue(csid,isbn);
+  else if(b.id=="reserve")reserve(csid,isbn);
+  else if(b.id=="reset"){["stu","fs","cs","fc"].forEach(x=>document.getElementById(x).value="");init();fill()}
+  else if(b.id=="addst"){const nm=document.getElementById("nm"),id=addStudent(nm.value.trim());if(id){nm.value="";fill(id,isbn);pickStu("cs",id)}}
+  else if(b.id=="addbk"){const t=document.getElementById("bt"),nb=addBook(t.value.trim(),document.getElementById("bc").value);if(nb){t.value="";fill(sid,nb)}}
+  else if(b.id=="removeall"){removeAll();fill(0,isbn)}
+  else if(b.id=="remove"){if(removeStudent(sid))fill(0,isbn)}
   else if(b.id=="rename"){
-    const nm=document.getElementById("nm"),name=nm.value.trim(),old=stu(sid).name;
-    if(!name)say("Type the new name first, then choose Rename selected.","e");
-    else if(S.students.some(s=>s.id!=sid&&s.name.toLowerCase()==name.toLowerCase()))say(`A student named ${name} already exists.`,"e");
-    else{stu(sid).name=name;say(`Renamed ${old} to ${name}.`,"g");nm.value="";fill(sid,isbn)}
+    const nm=document.getElementById("nm"),name=nm.value.trim(),rg=document.getElementById("rg").value.trim(),st=stu(sid),dept=document.getElementById("dp").value,year=document.getElementById("yr").value;
+    if(name&&S.students.some(s=>s.id!=sid&&s.name.toLowerCase()==name.toLowerCase()))say(`A student named ${name} already exists.`,"e");
+    else if(rg&&S.students.some(s=>s.id!=sid&&s.reg==rg))say(`Register no. ${rg} already belongs to another student.`,"e");
+    else if(!name&&!rg&&dept==st.dept&&year==st.year)say("Nothing to update. Type a new name or register no., or change the department or year.","e");
+    else{const old=st.name;if(name)st.name=name;if(rg)st.reg=rg;st.dept=dept;st.year=year;say(`Updated ${old}: ${st.name}, ${abbr(dept)}, ${year}.`,"g");nm.value="";document.getElementById("rg").value="";fill(sid,isbn)}
   }
   else if(b.dataset.adv)advance(+b.dataset.adv);
   else if(b.dataset.ret)ret(+b.dataset.ret);
@@ -209,6 +321,19 @@ document.addEventListener("click",e=>{
   else return;
   render();
 });
+document.getElementById("dp").innerHTML=DEPTS.map(d=>`<option>${d[0]}</option>`).join("");
+document.getElementById("yr").innerHTML=YEARS.map(y=>`<option>${y}</option>`).join("");
+["stu","cs"].forEach(k=>{
+  const inp=document.getElementById(CB[k][0]);
+  inp.addEventListener("input",()=>suggest(k));
+  inp.addEventListener("keydown",e=>{if(e.key=="Enter"){const it=document.querySelector("#"+CB[k][1]+" .it");if(it){e.preventDefault();pickStu(k,+it.dataset.id)}}});
+});
+document.addEventListener("click",e=>{
+  const it=e.target.closest(".it");
+  if(it)pickStu(it.dataset.k,+it.dataset.id);
+  else if(!e.target.closest(".cb"))document.querySelectorAll(".sug").forEach(x=>x.style.display="none");
+});
+document.getElementById("ft").addEventListener("input",render);
 init();fill();render();
 </script>
 </body>
